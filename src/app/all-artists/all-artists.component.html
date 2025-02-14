@@ -1,0 +1,25 @@
+<mat-list>
+    @for (artist of artists; track artist.name) {
+        <mat-card class="artist-card" appearance="outlined">
+            <mat-card-header>
+                <mat-card-title>{{artist.name}}</mat-card-title>
+                <mat-card-subtitle>Listeners: {{artist.listeners}}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                <mat-list role="list">
+                    @for (film of artist.films; track film.name) {
+                        <mat-list-item role="listitem">{{film.name}}</mat-list-item>
+                    }
+                </mat-list>
+            </mat-card-content>
+            <mat-card-actions style="display: flex; justify-content: space-between">
+                @if (permission.hasPermission("update:artist:specific")) {
+                    <button mat-button (click)="edit()">Edit</button>
+                }
+                @if (permission.hasPermission("delete:artist")) {
+                    <button mat-button (click)="delete()" style="color: red;">Delete</button>
+                }
+            </mat-card-actions>
+        </mat-card>
+    } 
+</mat-list>

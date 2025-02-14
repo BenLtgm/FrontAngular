@@ -1,0 +1,25 @@
+<mat-list>
+    @for (film of films; track film.name) {
+        <mat-card class="artist-card" appearance="outlined">
+            <mat-card-header>
+                <mat-card-title>{{film.name}}</mat-card-title>
+                <mat-card-subtitle>Release date: {{film.releaseDate}}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                
+            </mat-card-content>
+            <mat-card-actions style="display: flex; justify-content: space-between">
+                @if (permission.hasPermission("update:film")) {
+                    <button mat-button (click)="edit()">
+                        <a routerLink="/film/edit">Edit</a>
+                    </button>
+                }
+                @if (permission.hasPermission("delete:film")) {
+                    <button mat-button (click)="delete()" style="color: red;">
+                        Delete
+                    </button>                    
+                }
+            </mat-card-actions>
+        </mat-card>
+    }
+</mat-list>

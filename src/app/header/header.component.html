@@ -1,0 +1,11 @@
+<mat-toolbar>
+    <button mat-icon-button>
+        <mat-icon>menu</mat-icon>
+    </button>
+    <span>Disco</span>
+    <span class="example-spacer"></span>
+    <button (click)="login()" mat-button>Login</button>
+    <ng-container *ngIf="auth.user$ | async as use">
+        <button (click)="logout()" mat-button>Logout</button>
+    </ng-container>
+</mat-toolbar>
