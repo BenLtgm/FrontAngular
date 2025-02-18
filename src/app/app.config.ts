@@ -28,6 +28,14 @@ export const appConfig: ApplicationConfig = {
                 audience: "http://localhost:5036"
               }
             }
+          },
+          {
+            uri: "https://localhost:7229/*",
+            tokenOptions: {
+              authorizationParams: {
+                audience: "http://localhost:5036"
+              }
+            }
           }
         ]
       }

@@ -1,0 +1,42 @@
+<form [formGroup]="form" (ngSubmit)="submit()">
+    <mat-card appearance="outlined">
+        <mat-card-header>
+            <mat-card-title>{{title}}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <br>
+            <mat-form-field appearance="fill">
+                <mat-label>Name</mat-label>
+                <input matInput formControlName="name" placeholder="Example">
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+                <mat-label>Birthdate</mat-label>
+                <input matInput [matDatepicker]="picker" formControlName="birthdate">
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+            <br>
+            <mat-form-field appearance="fill">
+                <mat-label>Listeners</mat-label>
+                <input matInput placeholder="999" formControlName="listeners">
+            </mat-form-field>
+            <br>
+            <mat-list role="list">
+                <ng-container *ngFor="let film of form.controls.films.value ?? []">
+                    <mat-list-item role="listitem">
+                        @if (permission.hasPermission("delete:artist:film")) {
+                            <button mat-icon-button (click)="deleteFilm(film)"><mat-icon>delete</mat-icon></button>
+                        }
+                        @if (permission.hasPermission("update:film")) {
+                            <button mat-icon-button (click)="editFilm(film)"><mat-icon>edit</mat-icon></button>
+                        }
+                        <span>{{film.name}}</span>
+                    </mat-list-item>
+                </ng-container>
+            </mat-list>
+            <br>
+            <button mat-button>Submit</button>
+        </mat-card-content>
+    </mat-card>
+</form>

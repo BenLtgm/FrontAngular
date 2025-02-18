@@ -9,10 +9,17 @@ export class PermissionService {
   private permissions: Array<string> = []
 
   constructor(private auth: AuthService) {
-    this.auth.getAccessTokenSilently().subscribe((token) => {
-      const data = jwtDecode(token)
-      const rawData = JSON.parse(JSON.stringify(data))
-      this.permissions = rawData?.permissions
+    this.auth.user$.subscribe(user => {
+      if (!user) {
+        return;
+      }
+
+      this.auth.getAccessTokenSilently().subscribe({
+        next: (token) => {
+          const data: { permissions: string[] } = JSON.parse(atob(token.split(".")[1]))
+          this.permissions = data.permissions;
+        }
+      })
     })
   }
 

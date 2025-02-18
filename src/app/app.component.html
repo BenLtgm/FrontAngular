@@ -2,11 +2,21 @@
 <div style="margin-left: 100px;margin-right: 100px;">
     <mat-chip-set>
         <mat-chip>
-            <a routerLink="artist/all">Artists</a>
+            <a routerLink="artist/all">All Artists</a>
         </mat-chip>
+        @if (permission.hasPermission("create:artist")) {
+            <mat-chip>
+                <a routerLink="artist/add">Create Artist</a>
+            </mat-chip>
+        }
         <mat-chip>
-            <a routerLink="film/all">Films</a>
+            <a routerLink="film/all">All Films</a>
         </mat-chip>
+        @if (permission.hasPermission("create:film")) {
+            <mat-chip>
+                <a routerLink="film/add">Create Film</a>
+            </mat-chip>
+        }
     </mat-chip-set>
     <router-outlet/>
 </div>

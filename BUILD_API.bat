@@ -1,0 +1,1 @@
+ng-openapi-gen --input "http://localhost:5036/openapi/v1.json" --output "src/app/api"

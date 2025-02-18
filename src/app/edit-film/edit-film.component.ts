@@ -1,55 +1,37 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, inject } from '@angular/core';
-import { provideNativeDateAdapter } from '@angular/material/core';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import {FormBuilder, FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {MatCheckboxModule} from '@angular/material/checkbox';
-import {FloatLabelType, MatFormFieldModule} from '@angular/material/form-field';
-import {MatIconModule} from '@angular/material/icon';
-import {MatInputModule} from '@angular/material/input';
-import {MatRadioModule} from '@angular/material/radio';
-import {MatSelectModule} from '@angular/material/select';
-import {MatCardModule} from '@angular/material/card';
-import {MatDividerModule} from '@angular/material/divider';
-import {MatButtonModule} from '@angular/material/button';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { FormFilmComponent } from '../form-film/form-film.component';
+import { FilmService } from '../api/services';
+import { Film } from '../api/models';
+
 
 @Component({
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   selector: 'app-edit-film',
   imports: [
-    FormsModule,
-    ReactiveFormsModule,
-    MatDatepickerModule,
-    MatCheckboxModule,
-    MatRadioModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatIconModule,
-    MatCardModule,
-    MatButtonModule,
-    MatDividerModule,
-    MatFormFieldModule, 
-    MatInputModule, 
-    FormsModule, 
-    MatButtonModule
-  ],
-  providers: [
-    provideNativeDateAdapter()
+    FormFilmComponent
   ],
   templateUrl: './edit-film.component.html',
   styleUrl: './edit-film.component.css'
 })
-export class EditFilmComponent {
-  
-  constructor(private route: ActivatedRoute) {}
+export class EditFilmComponent implements AfterViewInit {
+  @ViewChild("form") form!: FormFilmComponent
+  title: string = "Edit Film"
 
-  ngOnInit(): void {
-    let id: string | null  = this.route.snapshot.paramMap.get("id")
-    console.log(id)
+  constructor(
+    private service: FilmService,
+    private route: ActivatedRoute
+  ) {}
+
+  ngAfterViewInit(): void {
+    let film: Film = this.route.snapshot.data["film"]
+    if (film) {
+      this.form.setForm(film)
+    }  
   }
   
-  onSubmit() {
-
+  submit(film: Film | null) {
+    if (film) {
+      this.service.apiFilmIdPut({id: film.id!, body: film}).subscribe((data) => {})
+    }
   }
-}
+} 

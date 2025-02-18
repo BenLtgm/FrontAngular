@@ -9,10 +9,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteFilmComponent } from '../delete-film/delete-film.component';
 
-import { Film } from '../film';
 import { PermissionService } from '../permission.service';
-import { FilmService } from '../film.service';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { Film } from '../api/models';
+import { FilmService } from '../api/services';
 
 @Component({
   selector: 'app-all-films',
@@ -34,32 +34,23 @@ export class AllFilmsComponent implements OnInit {
 
   constructor(
     private filmsService: FilmService,
-    public permission: PermissionService
+    public permission: PermissionService,
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this.getFilms()
+    this.films = this.route.snapshot.data["films"]
   }
 
-  delete() {
-    const dialogRef = this.dialog.open(DeleteFilmComponent, {
-      //data: {name: this.name(), animal: this.animal()},
-    });
+  delete(id: string) {
+    const dialogRef = this.dialog.open(DeleteFilmComponent, { data: id });
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+      this.filmsService.apiFilmIdGet$Json({id: id!}).subscribe((data) => {})
     });
   }
 
-  edit() {
-    
-  }
-
-  private getFilms() {
-    this.filmsService.getFilms().subscribe((data) => {
-      console.log(data)
-      this.films = data
-    }, (error) => {
-      console.error(error)
-    })
+  edit(id: string) {
+    this.router.navigate(["film/edit", id]);
   }
 }

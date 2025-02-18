@@ -14,10 +14,10 @@
             </mat-card-content>
             <mat-card-actions style="display: flex; justify-content: space-between">
                 @if (permission.hasPermission("update:artist:specific")) {
-                    <button mat-button (click)="edit()">Edit</button>
+                    <button mat-button (click)="edit(artist.id!)">Edit</button>
                 }
                 @if (permission.hasPermission("delete:artist")) {
-                    <button mat-button (click)="delete()" style="color: red;">Delete</button>
+                    <button mat-button (click)="delete(artist.id!)" style="color: red;">Delete</button>
                 }
             </mat-card-actions>
         </mat-card>

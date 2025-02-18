@@ -1,0 +1,30 @@
+<form [formGroup]="filmform" (ngSubmit)="submit()">
+    <mat-card appearance="outlined">
+        <mat-card-header>
+            <mat-card-title>{{title}}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <br>
+            <mat-form-field appearance="fill">
+                <mat-label>Name</mat-label>
+                <input matInput formControlName="name" placeholder="Example">
+            </mat-form-field>
+            <br>
+            <mat-slide-toggle formControlName="isStreamable">Is Streamable</mat-slide-toggle>
+            <br>
+            <mat-form-field>
+                <mat-label>Release date</mat-label>
+                <input matInput formControlName="releaseDate" [matDatepicker]="picker">
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+            <br>
+            <mat-form-field appearance="fill">
+                <mat-label>Time</mat-label>
+                <input matInput formControlName="time" placeholder="Time">
+            </mat-form-field>
+            <br>
+            <button type="submit" mat-button>Submit</button>
+        </mat-card-content>
+    </mat-card>
+</form>

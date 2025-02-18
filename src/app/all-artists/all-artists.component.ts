@@ -4,13 +4,12 @@ import { MatCardModule } from "@angular/material/card";
 import { MatIconModule } from "@angular/material/icon";
 import { MatListModule } from "@angular/material/list";
 import { MatToolbarModule } from "@angular/material/toolbar";
-import { Artist } from "../artist";
-import { AuthService } from "@auth0/auth0-angular";
-import { ArtistService } from "../artist.service";
 import { PermissionService } from "../permission.service";
 import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import { DeleteArtistComponent } from "../delete-artist/delete-artist.component";
 import { MatDialog } from "@angular/material/dialog";
+import { Artist } from "../api/models";
+import { ArtistService } from "../api/services";
 
 @Component({
   selector: 'app-all-artists',
@@ -31,35 +30,23 @@ export class AllArtistsComponent implements OnInit {
 
   constructor(
     private artistsService: ArtistService,
-    private auth: AuthService,
     public permission: PermissionService,
-    //private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
   
-  delete() {
-    const dialogRef = this.dialog.open(DeleteArtistComponent, {
-      //data: {name: this.name(), animal: this.animal()},
-    });
+  delete(id: string) {
+    const dialogRef = this.dialog.open(DeleteArtistComponent);
     dialogRef.afterClosed().subscribe(result => {
-      console.log("The dialog was closed");
+      this.artistsService.apiArtistArtistIdDelete({artistId: id}).subscribe((data) => {})
     });
   }
 
-  edit() {
-    this.router.navigate(["artist/edit", 10]);
+  edit(id: string) {
+    this.router.navigate(["artist/edit", id]);
   }
 
   ngOnInit(): void {
-    this.getArtists()
-  }
-
-  private getArtists() {
-    this.artistsService.getArtists().subscribe((data) => {
-      console.log(data)
-      this.artists = data
-    }, (error) => {
-      console.error(error)
-    })
+    this.artists = this.route.snapshot.data["artists"]
   }
 }

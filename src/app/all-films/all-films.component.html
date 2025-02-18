@@ -10,14 +10,10 @@
             </mat-card-content>
             <mat-card-actions style="display: flex; justify-content: space-between">
                 @if (permission.hasPermission("update:film")) {
-                    <button mat-button (click)="edit()">
-                        <a routerLink="/film/edit">Edit</a>
-                    </button>
+                    <button mat-button (click)="edit(film.id!)">Edit</button>
                 }
                 @if (permission.hasPermission("delete:film")) {
-                    <button mat-button (click)="delete()" style="color: red;">
-                        Delete
-                    </button>                    
+                    <button mat-button (click)="delete(film.id!)" style="color: red;">Delete</button>                    
                 }
             </mat-card-actions>
         </mat-card>
